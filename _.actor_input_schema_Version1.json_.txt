@@ -1,0 +1,34 @@
+{
+    "title": "Input schema of the Conference Attendee/Speaker Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "URLs of event websites to scrape attendee/speaker data from.",
+            "editor": "requestListSources",
+            "prefill": [
+                {
+                    "url": "https://example.com/event"
+                }
+            ]
+        },
+        "dataTypes": {
+            "title": "Data Types to Scrape",
+            "type": "array",
+            "description": "Specify whether to scrape attendees, speakers, or both.",
+            "editor": "stringArray",
+            "default": [
+                "attendees",
+                "speakers"
+            ]
+        },
+        "maxRequestsPerCrawl": {
+            "title": "Max Requests per Crawl",
+            "type": "integer",
+            "description": "Maximum number of pages to load during the crawl.",
+            "default": 50
+        }
+    }
+}

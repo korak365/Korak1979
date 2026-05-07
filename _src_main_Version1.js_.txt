@@ -1,0 +1,55 @@
+// Apify SDK - toolkit for building Apify Actors (Read more at https://docs.apify.com/sdk/js/)
+import { Actor } from 'apify';
+// Crawlee - web scraping and browser automation library (Read more at https://crawlee.dev)
+import { CheerioCrawler, Dataset } from 'crawlee';
+
+await Actor.init();
+
+const {
+    startUrls = ['https://example.com/event'],
+    dataTypes = ['attendees', 'speakers'],
+    maxRequestsPerCrawl = 50
+} = (await Actor.getInput()) ?? {};
+
+const proxyConfiguration = await Actor.createProxyConfiguration();
+
+const crawler = new CheerioCrawler({
+    proxyConfiguration,
+    maxRequestsPerCrawl,
+    async requestHandler({ enqueueLinks, request, $, log }) {
+        log.info(`Processing page ${request.loadedUrl}`);
+
+        const scrapedData = [];
+
+        if (dataTypes.includes('attendees')) {
+            $('.attendee-list .attendee').each((index, element) => {
+                scrapedData.push({
+                    name: $(element).find('.name').text(),
+                    title: $(element).find('.title').text(),
+                    company: $(element).find('.company').text(),
+                    profileUrl: $(element).find('.profile a').attr('href'),
+                });
+            });
+        }
+
+        if (dataTypes.includes('speakers')) {
+            $('.speaker-list .speaker').each((index, element) => {
+                scrapedData.push({
+                    name: $(element).find('.name').text(),
+                    title: $(element).find('.title').text(),
+                    company: $(element).find('.company').text(),
+                    profileUrl: $(element).find('.profile a').attr('href'),
+                });
+            });
+        }
+
+        for (const data of scrapedData) {
+            await Dataset.pushData(data);
+        }
+
+        await enqueueLinks(); // Enqueue other links from page
+    },
+});
+
+await crawler.run(startUrls);
+await Actor.exit();

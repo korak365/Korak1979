@@ -1,0 +1,11 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Output schema for Conference Attendee/Speaker Scraper",
+    "properties": {
+        "overview": {
+            "type": "string",
+            "title": "Summary Overview",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+        }
+    }
+}

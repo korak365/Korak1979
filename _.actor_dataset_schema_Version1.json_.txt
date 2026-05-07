@@ -1,0 +1,50 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "name": {
+            "type": "string",
+            "title": "Full Name"
+        },
+        "title": {
+            "type": "string",
+            "title": "Job Title / Role"
+        },
+        "company": {
+            "type": "string",
+            "title": "Organization Name"
+        },
+        "profileUrl": {
+            "type": "string",
+            "title": "Profile URL"
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": ["name", "title", "company", "profileUrl"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "name": {
+                        "label": "Full Name",
+                        "format": "text"
+                    },
+                    "title": {
+                        "label": "Job Title / Role",
+                        "format": "text"
+                    },
+                    "company": {
+                        "label": "Organization Name",
+                        "format": "text"
+                    },
+                    "profileUrl": {
+                        "label": "Profile URL",
+                        "format": "link"
+                    }
+                }
+            }
+        }
+    }
+}
